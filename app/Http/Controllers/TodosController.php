@@ -35,9 +35,9 @@ public function store()
 
     $this->validate(request(),[
     
-    'name' => 'required',
+    'name' => 'required|min:3|max:25',
 
-    'description' => 'required'
+    'description' => 'required|min:15|max:200'
 
   ]);
 
