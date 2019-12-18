@@ -48,7 +48,6 @@ class TodosController extends Controller
 
     $todo = new Todo();
     
-<<<<<<< HEAD
     $todo->name = $data['name'];
 
     $todo->description = $data['description'];
@@ -56,11 +55,6 @@ class TodosController extends Controller
     $todo->completed = false;
     
     $todo->save();
-=======
-    'name' => 'required|min:3|max:25',
-
-    'description' => 'required|min:15|max:200'
->>>>>>> e47a2dc3b17d4df9ad45ab8c7f183afcc2c31dc1
 
     return redirect('/todos');
 
