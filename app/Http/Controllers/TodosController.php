@@ -13,52 +13,99 @@ class TodosController extends Controller
     }
 
 
-public function show($todoId)
-{
-  //(var_dump($todoId));
+  public function show($todoId)
+  {
+    //(var_dump($todoId));
 
-  //$todo = Todo::find($todoId);
+    //$todo = Todo::find($todoId);
 
-  return view('todos.show')->with('todo', Todo::find($todoId));
-
-  }
-
-public function create()
-{
-
-return view('todos.create');
+    return view('todos.show')->with('todo', Todo::find($todoId));
 
   }
 
-public function store()
+  public function create()
   {
 
-    $this->validate(request(),[
+    return view('todos.create');
+
+  }
+
+  public function store()
+    {
+
+      $this->validate(request(),[
+      
+      'name' => 'required|min:3|max:25',
+
+      'description' => 'required|min:15|max:200'
+
+    ]);
+
+
+
+
+    $data = request()->all();
+
+    $todo = new Todo();
     
-    'name' => 'required|min:3|max:25',
+    $todo->name = $data['name'];
 
-    'description' => 'required|min:15|max:200'
+    $todo->description = $data['description'];
+    
+    $todo->completed = false;
+    
+    $todo->save();
 
-  ]);
-
-
-
-
-  $data = request()->all();
-
-  $todo = new Todo();
-  
-  $todo->name = $data['name'];
-
-  $todo->description = $data['description'];
-  
-  $todo->completed = false;
-  
-  $todo->save();
-
-  return redirect('/todos');
+    return redirect('/todos');
 
 
-}
+  }
+
+  public function edit($todoId)
+    {
+
+      $todo = Todo::find($todoId);
+
+      return view('todos.edit')->with('todo', $todo);
+
+    }
+
+
+      public function update($todoId)
+    {
+
+      $this->validate(request(),[
+      
+      'name' => 'required|min:3|max:25',
+
+      'description' => 'required|min:15|max:200'
+    ]);
+
+
+        $data = request()->all();
+
+
+        $todo = Todo::find($todoId);
+
+        $todo->name = $data['name'];
+
+        $todo->description = $data['description'];
+    
+        $todo->save();
+
+        return view('todos.show')->with('todo', $todo);
+
+  }
+
+  public function delete($todoId)
+  {
+    $todo = Todo::find($todoId);
+
+    $todo->delete();
+
+
+    return redirect('/todos');
+  }
+
 
 }
